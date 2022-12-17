@@ -65,7 +65,7 @@ get format:
 */
 
 export const deleteDelete = 
-"https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/ID_DO_HABITO",
+"https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/ID_DO_HABITO"
 /*{ headers: { Authorization: `Bearer ${token}` } }*/
 
 

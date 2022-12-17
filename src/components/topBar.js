@@ -2,14 +2,14 @@ import styled from "styled-components"
 
 export default function TopBar(){
     return(
-        <TopBar>
+        <TopBarElem>
             <FontTopBar></FontTopBar>
             <ImgTopBar/>
-        </TopBar>
+        </TopBarElem>
     )
 }
 
-const TopBar = styled.div`
+const TopBarElem = styled.div`
 width: 100%;
 height: 70px;
 background: #126BA5;
