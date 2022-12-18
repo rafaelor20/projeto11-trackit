@@ -79,6 +79,7 @@ font-size: 21px;
 line-height: 26px;
 text-align: center;
 color: #FFFFFF;
+text-decoration:none;
 `
 
 const OtherPage = styled.p`
