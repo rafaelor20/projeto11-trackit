@@ -8,6 +8,8 @@ import logo from "./assets/logo.png"
 export default function RenderRegister() {
     const [user, setUser] = useState(registerPostObj);
     const userProps = {user: user, setUser: setUser}
+    const navigate = useNavigate();
+
     return (
         <RegisterDiv>
             <Logo src={logo} />
@@ -16,7 +18,7 @@ export default function RenderRegister() {
             <InputBox placeholder="senha" onChange={e => updatePassword(e.target.value, userProps)}></InputBox>
             <InputBox placeholder="nome" onChange={e => updateName(e.target.value, userProps)}></InputBox>
             <InputBox placeholder="foto" onChange={e => updateImage(e.target.value, userProps)}></InputBox>
-            <LoginButton onClick={()=>Register(userProps)}>
+            <LoginButton onClick={()=>Register(userProps, navigate)}>
                     <FontButton>
                         Cadastrar    
                     </FontButton>
@@ -28,13 +30,11 @@ export default function RenderRegister() {
     );
 }
 
-function Register(userProps){
-    const navigate = useNavigate();
-    useEffect( () => {
-        const request = axios.post(registerPostUrl, userProps.user);
-        request.then(navigate('/'))
-        request.catch(alert("falha no cadastro"));
-    }); 
+function Register(userProps, navigate){
+    console.log(userProps.user);
+    const request = axios.post(registerPostUrl, userProps.user);
+    request.then(()=>{navigate('/')});
+    request.catch((error)=>error.response.data)
 }
 
 function updateEmail(email, userProps) {

@@ -6,6 +6,7 @@ import logo from "./assets/logo.png";
 import { loginPostUrl, loginPostSendObj, loginPostReceiveObj } from './apiUrls.js'
 
 export default function RenderLogin() {
+    const navigate = useNavigate();
     const [login, setLogin] = useState(loginPostSendObj);
     const [user, setUser] = useState(loginPostReceiveObj);
     const loginProps = { login: login, setLogin: setLogin };
@@ -16,7 +17,7 @@ export default function RenderLogin() {
             <FontTitle>TrackIt</FontTitle>
             <InputBox placeholder="email" onChange={e => updateEmail(e.target.value, loginProps)}></InputBox>
             <InputBox placeholder="senha" onChange={e => updatePassword(e.target.value, loginProps)}></InputBox>
-            <LoginButton onClick={() => { Login(loginProps, userProps) }}>
+            <LoginButton onClick={() => { Login(loginProps, userProps, navigate) }}>
                 <FontButton>
                     Entrar
                 </FontButton>
@@ -28,32 +29,33 @@ export default function RenderLogin() {
     );
 }
 
-function Login(loginProps, userProps) {
-    const navigate = useNavigate();
-    useEffect(() => {
-        const request = axios.post(loginPostUrl, loginProps);
-        const setUser = userProps.setUser;
-        request.then(server => {setUser(server.data); navigate('/habitos')});
-        request.catch(alert("falha no login"));
-    }
-    )
+function Login(loginProps, userProps, navigate) {
+    console.log(loginProps);
+    const request = axios.post(loginPostUrl, loginProps.login);
+    const setUser = userProps.setUser;
+    //request.then(server => { 
+    //    setUser(server.data)});
+    request.then(()=>{navigate('/habitos')});
+    request.catch((error)=>error.response.data);
 }
 
 function updateEmail(email, loginProps) {
     const setLogin = loginProps.setLogin;
+    const login = loginProps.login;
     setLogin(
         {
             email: email,
-            password: loginProps.password
+            password: login.password
         }
     );
 }
 
 function updatePassword(password, loginProps) {
     const setLogin = loginProps.setLogin;
+    const login = loginProps.login;
     setLogin(
         {
-            email: loginProps.email,
+            email: login.email,
             password: password
         }
     );
