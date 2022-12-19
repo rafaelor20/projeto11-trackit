@@ -1,27 +1,91 @@
 import styled from "styled-components";
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { registerPostUrl, registerPostObj } from "./apiUrls.js";
 import logo from "./assets/logo.png"
 
-export default function Register() {
+export default function RenderRegister() {
+    const [user, setUser] = useState(registerPostObj);
+    const userProps = {user: user, setUser: setUser}
     return (
         <RegisterDiv>
             <Logo src={logo} />
             <FontTitle>TrackIt</FontTitle>
-            <InputBox placeholder="email"></InputBox>
-            <InputBox placeholder="senha"></InputBox>
-            <InputBox placeholder="nome"></InputBox>
-            <InputBox placeholder="foto"></InputBox>
-            <Link to='/habitos' style={{ textDecoration: 'none'}}>
-                <LoginButton >
+            <InputBox placeholder="email" onChange={e => updateEmail(e.target.value, userProps)}></InputBox>
+            <InputBox placeholder="senha" onChange={e => updatePassword(e.target.value, userProps)}></InputBox>
+            <InputBox placeholder="nome" onChange={e => updateName(e.target.value, userProps)}></InputBox>
+            <InputBox placeholder="foto" onChange={e => updateImage(e.target.value, userProps)}></InputBox>
+            <LoginButton onClick={()=>Register(userProps)}>
                     <FontButton>
                         Cadastrar    
                     </FontButton>
                 </LoginButton>
-            </Link>
             <Link to="/" style={{ textDecoration: 'none'}}>
                 <OtherPage>Já tem uma conta? Faça login!</OtherPage>
             </Link>
         </RegisterDiv>
+    );
+}
+
+function Register(userProps){
+    const navigate = useNavigate();
+    useEffect( () => {
+        const request = axios.post(registerPostUrl, userProps.user);
+        request.then(navigate('/'))
+        request.catch(alert("falha no cadastro"));
+    }); 
+}
+
+function updateEmail(email, userProps) {
+    const setUser = userProps.setUser;
+    const user = userProps.user;
+    setUser(
+        {
+            email: email,
+            name: user.name,
+            image: user.image,
+            password: user.password
+        }
+    );
+}
+
+function updatePassword(password, userProps) {
+    const setUser = userProps.setUser;
+    const user = userProps.user;
+    setUser(
+        {
+            email: user.email,
+            name: user.name,
+            image: user.image,
+            password: password
+        }
+    );
+}
+
+function updateName(name, userProps) {
+    const setUser = userProps.setUser;
+    const user = userProps.user;
+    setUser(
+        {
+            email: user.email,
+            name: name,
+            image: user.image,
+            password: user.password
+        }
+    );
+}
+
+function updateImage(image, userProps) {
+    const setUser = userProps.setUser;
+    const user = userProps.user;
+    setUser(
+        {
+            email: user.email,
+            name: user.name,
+            image: image,
+            password: user.password
+        }
     );
 }
 

@@ -28,7 +28,7 @@ export const habitPostSendObj ={
 	name: "",
 	days: [] // segunda, quarta e sexta
 };
-export const config = { headers: { Authorization: `Bearer ${token}` } };
+// config = { headers: { Authorization: `Bearer ${token}` } };
 
 
 export const habitPostReceiveObj = {
@@ -48,11 +48,11 @@ export const habitsListObj = [
 ];
 
 export const deleteUrl =  "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/ID_DO_HABITO";
-/*{ headers: { Authorization: `Bearer ${token}` } }*/
+// config = { headers: { Authorization: `Bearer ${token}` } };
 
 
 export const habitsTodayUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today";
-/*{ headers: { Authorization: `Bearer ${token}` } }*/
+// config = { headers: { Authorization: `Bearer ${token}` } };
 export const habitsTodayReceive = [
     {
         "id": 0,
@@ -64,10 +64,10 @@ export const habitsTodayReceive = [
 ];
 
 export const habitDonePostUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/ID_DO_HABITO/check"
-/*{ headers: { Authorization: `Bearer ${token}` } }*/
+// config = { headers: { Authorization: `Bearer ${token}` } };
 
 export const habitUndonePostUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/ID_DO_HABITO/uncheck"
-/*{ headers: { Authorization: `Bearer ${token}` } }*/
+// config = { headers: { Authorization: `Bearer ${token}` } };
 
 export const historicGetUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/history/daily"
-/*{ headers: { Authorization: `Bearer ${token}` } }*/
+// config = { headers: { Authorization: `Bearer ${token}` } };

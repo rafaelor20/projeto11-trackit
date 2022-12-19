@@ -1,30 +1,62 @@
 import styled from "styled-components";
-import { Link } from 'react-router-dom'
-import logo from "./assets/logo.png"
+import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import logo from "./assets/logo.png";
+import { loginPostUrl, loginPostSendObj, loginPostReceiveObj } from './apiUrls.js'
 
 export default function RenderLogin() {
+    const [login, setLogin] = useState(loginPostSendObj);
+    const [user, setUser] = useState(loginPostReceiveObj);
+    const loginProps = { login: login, setLogin: setLogin };
+    const userProps = { user: user, setUser: setUser };
     return (
         <LoginDiv>
             <Logo src={logo} />
             <FontTitle>TrackIt</FontTitle>
-            <InputBox placeholder="email"></InputBox>
-            <InputBox placeholder="senha"></InputBox>
-            <Link to='/habitos' style={{ textDecoration: 'none'}}>
-                <LoginButton>
-                    <FontButton>
-                        Entrar
-                    </FontButton>
-                </LoginButton>
-            </Link>
-            <Link to="/cadastro" style={{ textDecoration: 'none'}}>
+            <InputBox placeholder="email" onChange={e => updateEmail(e.target.value, loginProps)}></InputBox>
+            <InputBox placeholder="senha" onChange={e => updatePassword(e.target.value, loginProps)}></InputBox>
+            <LoginButton onClick={() => { Login(loginProps, userProps) }}>
+                <FontButton>
+                    Entrar
+                </FontButton>
+            </LoginButton>
+            <Link to="/cadastro" style={{ textDecoration: 'none' }}>
                 <OtherPage>Não tem uma conta? Cadastre-se!</OtherPage>
             </Link>
         </LoginDiv>
     );
 }
 
-function Login(){
-    
+function Login(loginProps, userProps) {
+    const navigate = useNavigate();
+    useEffect(() => {
+        const request = axios.post(loginPostUrl, loginProps);
+        const setUser = userProps.setUser;
+        request.then(server => {setUser(server.data); navigate('/habitos')});
+        request.catch(alert("falha no login"));
+    }
+    )
+}
+
+function updateEmail(email, loginProps) {
+    const setLogin = loginProps.setLogin;
+    setLogin(
+        {
+            email: email,
+            password: loginProps.password
+        }
+    );
+}
+
+function updatePassword(password, loginProps) {
+    const setLogin = loginProps.setLogin;
+    setLogin(
+        {
+            email: loginProps.email,
+            password: password
+        }
+    );
 }
 
 const LoginDiv = styled.div`
