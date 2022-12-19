@@ -1,22 +1,19 @@
 import styled from "styled-components";
 import { Link } from 'react-router-dom'
-import elipse from './assets/Ellipse 2.png'
+import today from './assets/today.png'
 
 export default function BottomBar() {
     return (
         <BottomBarDiv>
-            <Link to='/habitos'>
+            <Link to='/habitos' style={{ textDecoration: 'none'}}>
                 <FontBottom>Hábitos</FontBottom>
             </Link>
             <Link to='/hoje'>
                 <TodayDiv>
-                    <Ellipse src={elipse} />
-                    <FontToday>
-                        Hoje
-                    </FontToday>
+                    <Today src={today} alt='hoje'/>
                 </TodayDiv>
             </Link>
-            <Link to='/historico'>
+            <Link to='/historico' style={{ textDecoration: 'none'}}>
                 <FontBottom>Histórico</FontBottom>
             </Link>
         </BottomBarDiv>
@@ -38,21 +35,13 @@ align-items: center;
 
 const TodayDiv = styled.div`
 position: sticky;
+display: flex;
+justify-content: center;
+align-items:center;
 `
 
-const FontToday = styled.p`
+const Today = styled.img`
 position: sticky;
-font-family: 'Lexend Deca';
-font-style: normal;
-font-weight: 400;
-font-size: 18px;
-line-height: 22px;
-text-align: center;
-color: #FFFFFF;
-`
-
-const Ellipse = styled.img`
-
 width: 91px;
 height: 91px;
 left: 142px;
@@ -68,4 +57,5 @@ line-height: 22px;
 text-align: center;
 color: #52B6FF;
 `
+
 

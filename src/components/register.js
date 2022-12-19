@@ -11,10 +11,14 @@ export default function Register() {
             <InputBox placeholder="senha"></InputBox>
             <InputBox placeholder="nome"></InputBox>
             <InputBox placeholder="foto"></InputBox>
-            <Link to='/habitos'>
-                <LoginButton ><FontButton>Cadastrar</FontButton></LoginButton>
+            <Link to='/habitos' style={{ textDecoration: 'none'}}>
+                <LoginButton >
+                    <FontButton>
+                        Cadastrar    
+                    </FontButton>
+                </LoginButton>
             </Link>
-            <Link to="/">
+            <Link to="/" style={{ textDecoration: 'none'}}>
                 <OtherPage>Já tem uma conta? Faça login!</OtherPage>
             </Link>
         </RegisterDiv>
@@ -80,7 +84,6 @@ font-size: 21px;
 line-height: 26px;
 text-align: center;
 color: #FFFFFF;
-text-decoration:none;
 `
 
 const OtherPage = styled.p`

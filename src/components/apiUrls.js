@@ -1,94 +1,73 @@
-export const registerPost = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up"
+export const registerPostUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
+export const registerPostObj = {
+	email: "",
+	name: "",
+	image: "",
+	password: ""
+};
 
-/*
-send format:
-{
-	email: "...",
-	name: "...",
-	image: "...",
-	password: "..."
-}
-*/
 
-export const loginPost = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login"
-
-/*
-send format:
-{
+export const loginPostUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login";
+export const loginPostSendObj = {
 	email: "...",
 	password: "..."
-}
-
-get format:
+};
+export const loginPostReceiveObj =
 {
-    "id": 3,
-    "name": "Joe",
-    "image": "https://http.cat/411.jpg",
-    "email": "joe@respondeai.com.br",
-    "password": "123456",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjIxMjg0NzExfQ.b8e3bYm7TnU5p6pfrCPPbzboax6gvh_gGNFR4T51FxY"
-}
-*/
+    "id": 0,
+    "name": "",
+    "image": "",
+    "email": "",
+    "password": "",
+    "token": ""
+};
 
-export const habitPost = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
-/*
-send format:
-{
-	name: "Nome do hábito",
-	days: [1, 3, 5] // segunda, quarta e sexta
-}
-{ headers: { Authorization: `Bearer ${token}` } }
 
-get format:
-{
-	id: 1,
-	name: "Nome do hábito",
-	days: [1, 3, 5]
-}
-*/
+export const habitPostUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
+export const habitPostSendObj ={
+	name: "",
+	days: [] // segunda, quarta e sexta
+};
+export const config = { headers: { Authorization: `Bearer ${token}` } };
 
-export const habitsListGet = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
-/*
-get format:
-[
+
+export const habitPostReceiveObj = {
+	id: 0,
+	name: "",
+	days: []
+};
+
+
+export const habitsListGetUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"
+export const habitsListObj = [
 	{
-		id: 1,
-		name: "Nome do hábito",
-		days: [1, 3, 5]
-	},
-	{
-		id: 2,
-		name: "Nome do hábito 2",
-		days: [1, 3, 4, 6]
+		id: 0,
+		name: "",
+		days: []
 	}
-]
-*/
+];
 
-export const deleteDelete = 
-"https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/ID_DO_HABITO"
+export const deleteUrl =  "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/ID_DO_HABITO";
 /*{ headers: { Authorization: `Bearer ${token}` } }*/
 
 
-export const habitsTodayGet = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today"
+export const habitsTodayUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today";
 /*{ headers: { Authorization: `Bearer ${token}` } }*/
-
-/*
-[
+export const habitsTodayReceive = [
     {
-        "id": 3,
-        "name": "Acordar",
-        "done": true,
-        "currentSequence": 1,
-        "highestSequence": 1
+        "id": 0,
+        "name": "",
+        "done": false,
+        "currentSequence": 0,
+        "highestSequence": 0
     }
-]
-*/
+];
 
-export const habitDonePost = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/ID_DO_HABITO/check"
+export const habitDonePostUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/ID_DO_HABITO/check"
 /*{ headers: { Authorization: `Bearer ${token}` } }*/
 
-export const habitUndonePost = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/ID_DO_HABITO/uncheck"
+export const habitUndonePostUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/ID_DO_HABITO/uncheck"
 /*{ headers: { Authorization: `Bearer ${token}` } }*/
 
-export const historicGet = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/history/daily"
+export const historicGetUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/history/daily"
 /*{ headers: { Authorization: `Bearer ${token}` } }*/

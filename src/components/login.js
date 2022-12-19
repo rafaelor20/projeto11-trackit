@@ -2,21 +2,29 @@ import styled from "styled-components";
 import { Link } from 'react-router-dom'
 import logo from "./assets/logo.png"
 
-export default function Login() {
+export default function RenderLogin() {
     return (
         <LoginDiv>
             <Logo src={logo} />
             <FontTitle>TrackIt</FontTitle>
             <InputBox placeholder="email"></InputBox>
             <InputBox placeholder="senha"></InputBox>
-            <Link to='/habitos'>
-                <LoginButton ><FontButton>Entrar</FontButton></LoginButton>
+            <Link to='/habitos' style={{ textDecoration: 'none'}}>
+                <LoginButton>
+                    <FontButton>
+                        Entrar
+                    </FontButton>
+                </LoginButton>
             </Link>
-            <Link to="/cadastro">
+            <Link to="/cadastro" style={{ textDecoration: 'none'}}>
                 <OtherPage>Não tem uma conta? Cadastre-se!</OtherPage>
             </Link>
         </LoginDiv>
     );
+}
+
+function Login(){
+    
 }
 
 const LoginDiv = styled.div`
@@ -79,7 +87,6 @@ font-size: 21px;
 line-height: 26px;
 text-align: center;
 color: #FFFFFF;
-text-decoration:none;
 `
 
 const OtherPage = styled.p`
