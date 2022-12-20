@@ -102,21 +102,21 @@ function RenderHabit(habit) {
                 <DayBox data-identifier="habit-day">
                     <p>D</p>
                 </DayBox>
-                <GreyDayBox>
+                <DayBox>
                     <p>S</p>
-                </GreyDayBox>
+                </DayBox>
                 <DayBox>
                     <p>T</p>
                 </DayBox>
-                <GreyDayBox>
-                    <p>Q</p>
-                </GreyDayBox>
                 <DayBox>
                     <p>Q</p>
                 </DayBox>
-                <GreyDayBox>
+                <DayBox>
+                    <p>Q</p>
+                </DayBox>
+                <DayBox>
                     <p>S</p>
-                </GreyDayBox>
+                </DayBox>
                 <DayBox>
                     <p>S</p>
                 </DayBox>
