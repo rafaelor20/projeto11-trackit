@@ -1,31 +1,38 @@
 import styled from "styled-components";
 import axios from "axios";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../App";
 import TopBar from './topBar.js'
 import BottomBar from './bottomBar'
 import trash from './assets/trash.png'
-import { habitsListGetUrl, habitsListObj } from './apiUrls.js'
+import { habitsListGetUrl, habitsListObj, deleteUrl } from './apiUrls.js'
 
 
 export default function Habits() {
     const userData = useContext(UserContext);
-    const [enableCreate, setEnableCreate] = useState(false);
+    const [enableCreate, setEnableCreate] = useState('none');
     const [habitsLst, setHabitsLst] = useState(habitsListObj);
-    const request = axios.get(habitsListGetUrl, { headers: { Authorization: `Bearer ${userData.user.token}` } });
-    request.then((server)=>{setHabitsLst(server.data)});
-    request.catch((error)=>error.response.data);
+    const [hasHabit, setHasHabit] = useState('none');
+    useEffect(() => {
+        const request = axios.get(habitsListGetUrl, { headers: { Authorization: `Bearer ${userData.user.token}` } });
+        request.then((server) => { setHabitsLst(server.data) });
+        request.catch((error) => error.response.data);
+        if (habitsLst.length > 0) {
+            setHasHabit('flex');
+        }
+    })
+
     return (
         <HabitDiv>
             <TopBar />
             <Content>
                 <TopBarHabits>
                     <FontTopBarHabits>Meus hábitos</FontTopBarHabits>
-                    <CreateHabit onClick={()=>{createHabit(enableCreate, setEnableCreate)}}>
+                    <CreateHabit onClick={() => { createHabit(enableCreate, setEnableCreate) }} >
                         <PlusText>+</PlusText>
                     </CreateHabit>
                 </TopBarHabits>
-                <AddHabitDiv>
+                <AddHabitDiv render={enableCreate}>
                     <InputHabitName placeholder="nome do hábito" />
                     <DaysBox>
                         <DayBox>
@@ -51,13 +58,13 @@ export default function Habits() {
                         </DayBox>
                     </DaysBox>
                     <AddHabitButtons>
-                        <AddHabitCancel onClick={()=>{createHabit(enableCreate, setEnableCreate)}}><p>Cancelar</p></AddHabitCancel>
+                        <AddHabitCancel onClick={() => { createHabit(enableCreate, setEnableCreate) }}><p>Cancelar</p></AddHabitCancel>
                         <AddHabitButton>
                             <p>Salvar</p>
                         </AddHabitButton>
                     </AddHabitButtons>
                 </AddHabitDiv>
-                <NoHabitWarning>
+                <NoHabitWarning render={hasHabit}>
                     Você não tem nenhum hábito cadastrado ainda.
                     Adicione um hábito para começar a trackear!
                 </NoHabitWarning>
@@ -68,16 +75,8 @@ export default function Habits() {
     );
 }
 
-function createHabit(enableCreate ,setEnableCreate){
-    if(enableCreate){
-        setEnableCreate(false);
-    } else {
-        setEnableCreate(true);
-    };
-}
-
-function RenderHabits(habits){
-    return(
+function RenderHabits(habits) {
+    return (
         <>{habits.map(RenderHabit)}</>
     )
 }
@@ -114,6 +113,25 @@ function RenderHabit(habit) {
             </DaysBox>
         </Habit>
     )
+}
+
+function createHabit(enableCreate, setEnableCreate) {
+    if (enableCreate === 'flex') {
+        setEnableCreate('none');
+    } else {
+        setEnableCreate('flex');
+    };
+}
+
+function deleteHabit(userData, deleteUrl, habit) {
+    let text = "Voce deseja apagar este habito?\nClique em OK ou Cancel";
+    // eslint-disable-next-line no-restricted-globals
+    if (confirm(text) === true) {
+        const url = deleteUrl + habit.id;
+        const request = axios.delete(url, { headers: { Authorization: `Bearer ${userData.user.token}` } });
+        request.then(() => { alert("Hábito apagado com sucesso") });
+        request.catch((error) => error.response);
+    };
 }
 
 const HabitDiv = styled.div`
@@ -161,7 +179,7 @@ color: #FFFFFF;
 `
 
 const AddHabitDiv = styled.div`
-display: flex;
+display: ${props => props.render};
 justify-content:center;
 flex-direction: column;
 width: 95%;
@@ -301,7 +319,7 @@ p{
 
 
 const NoHabitWarning = styled.p`
-display: flex;
+display: ${props => props.render};
 width:95%;
 margin: 30px 0px;
 font-family: 'Lexend Deca';

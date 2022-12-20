@@ -13,7 +13,7 @@ export default function Today() {
     const [habitsToday, setHabitsToday] = useState(habitsTodayReceive);
     const request = axios.get(habitsTodayUrl, { headers: { Authorization: `Bearer ${userData.user.token}` } });
     request.then((server)=>{setHabitsToday(server.data)});
-    request.catch((error)=>error.response);
+    request.catch((error)=>error.response.data);
     return (
         <TodayStyle>
             <TopBar />

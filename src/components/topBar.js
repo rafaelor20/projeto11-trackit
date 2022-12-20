@@ -1,14 +1,15 @@
 import styled from "styled-components"
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { UserContext } from "../App";
-import userPicture from "./assets/userPicture.png"
+
 
 export default function TopBar() {
     const userData = useContext(UserContext);
+    const user = userData.user;
     return (
         <TopBarElem>
             <FontTopBar>TrackIt</FontTopBar>
-            <ImgTopBar src={userData.image} />
+            <ImgTopBar src={user.image} />
         </TopBarElem>
     )
 }

@@ -47,7 +47,7 @@ export const habitsListObj = [
 	}
 ];
 
-export const deleteUrl =  "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/ID_DO_HABITO";
+export const deleteUrl =  "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/";
 // config = { headers: { Authorization: `Bearer ${token}` } };
 
 
