@@ -12,10 +12,14 @@ import { habitsListGetUrl, habitsListObj, deleteUrl, habitPostUrl, habitPostSend
 export default function Habits() {
     const userData = useContext(UserContext);
     const [enableCreate, setEnableCreate] = useState('none');
+    const propsEnableCreate = {enableCreate: enableCreate, setEnableCreate: setEnableCreate};
     const [createdHabit, setCreatedHabit] = useState(habitPostSendObj)
+    const propsCreatedHabit = {createdHabit: createdHabit, setCreatedHabit: setCreatedHabit};
     const [habitsLst, setHabitsLst] = useState(habitsListObj);
+    const propsHabitsLst = {habitsLst: habitsLst, setHabitsLst: setHabitsLst};
     const [hasHabit, setHasHabit] = useState('none');
     const [habitName, setHabitName] = useState('');
+    const propsHabitName = {habitName: habitName, setHabitName: setHabitName};
     const [daysLst, setDaysLst] = useState([]);
     const [dayColorLst, setDayColorLst] = useState(['#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF']);
     useEffect(() => {
@@ -64,7 +68,7 @@ export default function Habits() {
                     </DaysBox>
                     <AddHabitButtons>
                         <AddHabitCancel data-identifier="habit-create-cancel-btn" onClick={() => { renderCreateHabit(enableCreate, setEnableCreate) }}><p>Cancelar</p></AddHabitCancel>
-                        <AddHabitButton data-identifier="habit-create-save-btn" onClick={() => { createdHabitFunction(createdHabit, habitPostUrl, userData, habitsLst, setHabitsLst, enableCreate, setEnableCreate) }}>
+                        <AddHabitButton data-identifier="habit-create-save-btn" onClick={() => { createdHabitFunction(propsCreatedHabit, habitName, daysLst,habitPostUrl, userData, propsHabitsLst, propsEnableCreate) }}>
                             <p>Salvar</p>
                         </AddHabitButton>
                     </AddHabitButtons>
@@ -129,11 +133,21 @@ function renderCreateHabit(enableCreate, setEnableCreate) {
     };
 }
 
-function createdHabitFunction(createdHabit, habitPostUrl, userData, habitsLst, setHabitsLst, enableCreate, setEnableCreate) {
+function createdHabitFunction(propsCreatedHabit, habitName, daysLst, habitPostUrl, userData, propsHabitsLst, propsEnableCreate) {
+    const setHabitsLst = propsHabitsLst.setHabitsLst;
+    const habitsLst = propsHabitsLst.habitsLst;
+    const setEnableCreate = propsEnableCreate.setEnableCreate;
+    const createdHabit = propsCreatedHabit.createdHabit;
+    const setCreatedHabit = propsCreatedHabit.setCreatedHabit;
+    setCreatedHabit({
+        name: habitName,
+        days: daysLst
+    })
+    console.log(createdHabit);
     const user = userData.user;
-    const request = axios.post(habitPostUrl, { headers: { Authorization: `Bearer ${user.token}` } });
+    const request = axios.post(habitPostUrl, createdHabit, { headers: { Authorization: `Bearer ${user.token}` } });
     request.then((server) => { setHabitsLst([...habitsLst, server.data]) });
-    request.then(()=>setEnableCreate(enableCreate));
+    request.then(()=>setEnableCreate(false));
     request.catch(()=>alert("Erro ao enviar hábito"))
     request.catch((error) => error.response.data);
 }
@@ -168,31 +182,73 @@ function setDaysHabit(num, daysLst, setDaysLst, dayColorLst,setDayColorLst, setD
 
 
 function setDayColorLst0 (dayColorLst, setDayColorLst){
-    setDayColorLst(['#CFCFCF', dayColorLst[1], dayColorLst[2], dayColorLst[3], dayColorLst[4], dayColorLst[5], dayColorLst[6]])
+    let newColor;
+    if (dayColorLst[0] === '#CFCFCF'){
+        newColor = '#FFFFFF';
+    } else {
+        newColor = '#CFCFCF';
+    }
+    setDayColorLst([newColor, dayColorLst[1], dayColorLst[2], dayColorLst[3], dayColorLst[4], dayColorLst[5], dayColorLst[6]])
 }
 
 function setDayColorLst1 (dayColorLst, setDayColorLst){
-    setDayColorLst([dayColorLst[0],'#CFCFCF' , dayColorLst[2], dayColorLst[3], dayColorLst[4], dayColorLst[5], dayColorLst[6]])
+    let newColor;
+    if (dayColorLst[1] === '#CFCFCF'){
+        newColor = '#FFFFFF';
+    } else {
+        newColor = '#CFCFCF';
+    }
+    setDayColorLst([dayColorLst[0], newColor , dayColorLst[2], dayColorLst[3], dayColorLst[4], dayColorLst[5], dayColorLst[6]])
 }
 
 function setDayColorLst2 (dayColorLst, setDayColorLst){
-    setDayColorLst([dayColorLst[0], dayColorLst[1], '#CFCFCF', dayColorLst[3], dayColorLst[4], dayColorLst[5], dayColorLst[6]])
+    let newColor;
+    if (dayColorLst[2] === '#CFCFCF'){
+        newColor = '#FFFFFF';
+    } else {
+        newColor = '#CFCFCF';
+    }
+    setDayColorLst([dayColorLst[0], dayColorLst[1], newColor, dayColorLst[3], dayColorLst[4], dayColorLst[5], dayColorLst[6]])
 }
 
 function setDayColorLst3 (dayColorLst, setDayColorLst){
-    setDayColorLst([dayColorLst[0], dayColorLst[1], dayColorLst[2], '#CFCFCF', dayColorLst[4], dayColorLst[5], dayColorLst[6]])
+    let newColor;
+    if (dayColorLst[3] === '#CFCFCF'){
+        newColor = '#FFFFFF';
+    } else {
+        newColor = '#CFCFCF';
+    }
+    setDayColorLst([dayColorLst[0], dayColorLst[1], dayColorLst[2], newColor, dayColorLst[4], dayColorLst[5], dayColorLst[6]])
 }
 
 function setDayColorLst4 (dayColorLst, setDayColorLst){
-    setDayColorLst([dayColorLst[0], dayColorLst[1], dayColorLst[2], dayColorLst[3], '#CFCFCF', dayColorLst[5], dayColorLst[6]])
+    let newColor;
+    if (dayColorLst[4] === '#CFCFCF'){
+        newColor = '#FFFFFF';
+    } else {
+        newColor = '#CFCFCF';
+    }
+    setDayColorLst([dayColorLst[0], dayColorLst[1], dayColorLst[2], dayColorLst[3], newColor, dayColorLst[5], dayColorLst[6]])
 }
 
 function setDayColorLst5 (dayColorLst, setDayColorLst){
-    setDayColorLst([dayColorLst[0], dayColorLst[1], dayColorLst[2], dayColorLst[3], dayColorLst[4], '#CFCFCF', dayColorLst[6]])
+    let newColor;
+    if (dayColorLst[5] === '#CFCFCF'){
+        newColor = '#FFFFFF';
+    } else {
+        newColor = '#CFCFCF';
+    }
+    setDayColorLst([dayColorLst[0], dayColorLst[1], dayColorLst[2], dayColorLst[3], dayColorLst[4], newColor, dayColorLst[6]])
 }
 
 function setDayColorLst6 (dayColorLst, setDayColorLst){
-    setDayColorLst([dayColorLst[0], dayColorLst[1], dayColorLst[2], dayColorLst[3], dayColorLst[4], dayColorLst[5], '#CFCFCF' ])
+    let newColor;
+    if (dayColorLst[6] === '#CFCFCF'){
+        newColor = '#FFFFFF';
+    } else {
+        newColor = '#CFCFCF';
+    }
+    setDayColorLst([dayColorLst[0], dayColorLst[1], dayColorLst[2], dayColorLst[3], dayColorLst[4], dayColorLst[5], newColor ])
 }
 
 
@@ -320,6 +376,7 @@ const Habit = styled.div`
 width: 95%;
 height: 91px;
 padding: 10px 10px;
+margin: 10px 0px;
 display: flex;
 flex-direction:column;
 background: #FFFFFF;
