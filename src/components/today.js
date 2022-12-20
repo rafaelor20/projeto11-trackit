@@ -29,6 +29,7 @@ export default function Today() {
                 </HabitsDone>
                 <>{Habits(habitsToday)}</>
             </Content>
+
             <BottomBar />
         </TodayStyle>
     );
@@ -41,7 +42,7 @@ function Habits(lst) {
 }
 
 function RenderHabit(habit) {
-    const [habitDone, setHabitDone] = useState(`${habit.done}`)
+    const [habitDone, setHabitDone] = useState(habit.done)
     return (
         <Habit data-identifier="today-habit-container">
             <p class="title" data-identifier="today-habit-name">{habit.name}</p>
@@ -54,9 +55,9 @@ function RenderHabit(habit) {
 
 function markHabitDone(habitDone, setHabitDone) {
     if (habitDone) {
-        setHabitDone('false');
+        setHabitDone(false);
     } else {
-        setHabitDone('true');
+        setHabitDone(true);
     }
 }
 
