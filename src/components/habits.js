@@ -8,6 +8,7 @@ import trash from './assets/trash.png'
 import { habitsListGetUrl, habitsListObj, deleteUrl, habitPostUrl, habitPostSendObj } from './apiUrls.js'
 
 
+
 export default function Habits() {
     const userData = useContext(UserContext);
     const [enableCreate, setEnableCreate] = useState('none');
@@ -15,6 +16,8 @@ export default function Habits() {
     const [habitsLst, setHabitsLst] = useState(habitsListObj);
     const [hasHabit, setHasHabit] = useState('none');
     const [habitName, setHabitName] = useState('');
+    const [daysLst, setDaysLst] = useState([]);
+    const [dayColorLst, setDayColorLst] = useState(['#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF']);
     useEffect(() => {
         const request = axios.get(habitsListGetUrl, { headers: { Authorization: `Bearer ${userData.user.token}` } });
         request.then((server) => { setHabitsLst(server.data) });
@@ -37,31 +40,31 @@ export default function Habits() {
                 <AddHabitDiv render={enableCreate} data-identifier="habit-create-container">
                     <InputHabitName data-identifier="habit-name-input" placeholder="nome do hábito" onChange={e => updateHabitName(e.target.value, setHabitName)} />
                     <DaysBox>
-                        <DayBox data-identifier="habit-day">
+                        <DayBox data-identifier="habit-day" color={dayColorLst[0]} onClick={()=>setDaysHabit(0, daysLst, setDaysLst, dayColorLst,setDayColorLst, setDayColorLst0)}>
                             <p>D</p>
                         </DayBox>
-                        <GreyDayBox>
+                        <DayBox data-identifier="habit-day" color={dayColorLst[1]} onClick={()=>setDaysHabit(1, daysLst, setDaysLst, dayColorLst,setDayColorLst, setDayColorLst1)}>
                             <p>S</p>
-                        </GreyDayBox>
-                        <DayBox>
+                        </DayBox>
+                        <DayBox data-identifier="habit-day" color={dayColorLst[2]} onClick={()=>setDaysHabit(2, daysLst, setDaysLst, dayColorLst,setDayColorLst, setDayColorLst2)}>
                             <p>T</p>
                         </DayBox>
-                        <GreyDayBox>
-                            <p>Q</p>
-                        </GreyDayBox>
-                        <DayBox>
+                        <DayBox data-identifier="habit-day" color={dayColorLst[3]} onClick={()=>setDaysHabit(3, daysLst, setDaysLst, dayColorLst,setDayColorLst, setDayColorLst3)}>
                             <p>Q</p>
                         </DayBox>
-                        <GreyDayBox>
+                        <DayBox data-identifier="habit-day" color={dayColorLst[4]} onClick={()=>setDaysHabit(4, daysLst, setDaysLst, dayColorLst,setDayColorLst, setDayColorLst4)}>
+                            <p>Q</p>
+                        </DayBox>
+                        <DayBox data-identifier="habit-day" color={dayColorLst[5]} onClick={()=>setDaysHabit(5, daysLst, setDaysLst, dayColorLst,setDayColorLst, setDayColorLst5)}>
                             <p>S</p>
-                        </GreyDayBox>
-                        <DayBox>
+                        </DayBox>
+                        <DayBox data-identifier="habit-day" color={dayColorLst[6]} onClick={()=>setDaysHabit(6, daysLst, setDaysLst, dayColorLst,setDayColorLst, setDayColorLst6)}>
                             <p>S</p>
                         </DayBox>
                     </DaysBox>
                     <AddHabitButtons>
                         <AddHabitCancel data-identifier="habit-create-cancel-btn" onClick={() => { renderCreateHabit(enableCreate, setEnableCreate) }}><p>Cancelar</p></AddHabitCancel>
-                        <AddHabitButton data-identifier="habit-create-save-btn" onClick={() => { createdHabitFunction(createdHabit, habitPostUrl, userData, habitsLst, setHabitsLst) }}>
+                        <AddHabitButton data-identifier="habit-create-save-btn" onClick={() => { createdHabitFunction(createdHabit, habitPostUrl, userData, habitsLst, setHabitsLst, enableCreate, setEnableCreate) }}>
                             <p>Salvar</p>
                         </AddHabitButton>
                     </AddHabitButtons>
@@ -126,10 +129,12 @@ function renderCreateHabit(enableCreate, setEnableCreate) {
     };
 }
 
-function createdHabitFunction(createdHabit, habitPostUrl, userData, habitsLst, setHabitsLst) {
+function createdHabitFunction(createdHabit, habitPostUrl, userData, habitsLst, setHabitsLst, enableCreate, setEnableCreate) {
     const user = userData.user;
     const request = axios.post(habitPostUrl, { headers: { Authorization: `Bearer ${user.token}` } });
     request.then((server) => { setHabitsLst([...habitsLst, server.data]) });
+    request.then(()=>setEnableCreate(enableCreate));
+    request.catch(()=>alert("Erro ao enviar hábito"))
     request.catch((error) => error.response.data);
 }
 
@@ -147,6 +152,52 @@ function deleteHabit(deleteUrl, habit, userData) {
 function updateHabitName(name, setHabitName) {
     setHabitName(name);
 }
+
+
+
+
+
+
+
+
+function setDaysHabit(num, daysLst, setDaysLst, dayColorLst,setDayColorLst, setDayColorLstItem){
+    setDayColorLstItem(daysLst, setDayColorLst);
+    setDaysLst([...daysLst, num]);
+    setDaysLst(daysLst.sort());
+}
+
+
+function setDayColorLst0 (dayColorLst, setDayColorLst){
+    setDayColorLst(['#CFCFCF', dayColorLst[1], dayColorLst[2], dayColorLst[3], dayColorLst[4], dayColorLst[5], dayColorLst[6]])
+}
+
+function setDayColorLst1 (dayColorLst, setDayColorLst){
+    setDayColorLst([dayColorLst[0],'#CFCFCF' , dayColorLst[2], dayColorLst[3], dayColorLst[4], dayColorLst[5], dayColorLst[6]])
+}
+
+function setDayColorLst2 (dayColorLst, setDayColorLst){
+    setDayColorLst([dayColorLst[0], dayColorLst[1], '#CFCFCF', dayColorLst[3], dayColorLst[4], dayColorLst[5], dayColorLst[6]])
+}
+
+function setDayColorLst3 (dayColorLst, setDayColorLst){
+    setDayColorLst([dayColorLst[0], dayColorLst[1], dayColorLst[2], '#CFCFCF', dayColorLst[4], dayColorLst[5], dayColorLst[6]])
+}
+
+function setDayColorLst4 (dayColorLst, setDayColorLst){
+    setDayColorLst([dayColorLst[0], dayColorLst[1], dayColorLst[2], dayColorLst[3], '#CFCFCF', dayColorLst[5], dayColorLst[6]])
+}
+
+function setDayColorLst5 (dayColorLst, setDayColorLst){
+    setDayColorLst([dayColorLst[0], dayColorLst[1], dayColorLst[2], dayColorLst[3], dayColorLst[4], '#CFCFCF', dayColorLst[6]])
+}
+
+function setDayColorLst6 (dayColorLst, setDayColorLst){
+    setDayColorLst([dayColorLst[0], dayColorLst[1], dayColorLst[2], dayColorLst[3], dayColorLst[4], dayColorLst[5], '#CFCFCF' ])
+}
+
+
+
+
 
 const HabitDiv = styled.div`
 box-sizing: border-box;
@@ -306,7 +357,7 @@ const DayBox = styled.div`
 box-sizing: border-box;
 width: 30px;
 height: 30px;
-background: #FFFFFF;
+background: ${props=>props.color};
 border: 2px solid #D5D5D5;
 border-radius: 5px;
 margin: 6px 3px 0px 0px;
@@ -323,14 +374,6 @@ color: #DBDBDB;
 text-align:center;
 }
 `
-
-const GreyDayBox = styled(DayBox)`
-background: #CFCFCF;
-p{
-    color: #FFFFFF;
-}
-`
-
 
 const NoHabitWarning = styled.p`
 display: ${props => props.render};

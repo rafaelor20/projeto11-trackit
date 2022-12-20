@@ -38,7 +38,7 @@ function Login(loginProps, userData, navigate, setDisableInput) {
     request.then(() => { navigate('/hoje') });
     request.catch((error) => error.response.data);
     request.catch((error) => { alert("Erro no login") });
-    setDisableInput(false)
+    setDisableInput(false);
 }
 
 function updateEmail(email, loginProps) {
