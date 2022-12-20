@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import axios from "axios";
+import DayJS from 'react-dayjs';
 import { useState, useContext } from "react";
 import { UserContext } from "../App";
 import TopBar from './topBar.js'
@@ -9,18 +10,19 @@ import checked from './assets/checked.png'
 
 
 export default function Today() {
+    let semana = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
+    let dia = new Date();
     const userData = useContext(UserContext);
     const [habitsToday, setHabitsToday] = useState(habitsTodayReceive);
     const request = axios.get(habitsTodayUrl, { headers: { Authorization: `Bearer ${userData.user.token}` } });
     request.then((server) => { setHabitsToday(server.data) });
     request.catch((error) => error.response.data);
     return (
-
         <TodayStyle>
             <TopBar />
             <Content>
                 <TodayTitle data-identifier="today">
-                    Segunda, 17/05
+                    {semana[dia.getDay()]}, {DayJS().date()}/{DayJS().month()}
                 </TodayTitle>
                 <HabitsDone data-identifier="today-counter">
                     Nenhum hábito concluído ainda
@@ -40,14 +42,23 @@ function Habits(lst) {
 }
 
 function RenderHabit(habit) {
+    const [habitDone, setHabitDone] = useState(habit.done)
     return (
         <Habit data-identifier="today-habit-container">
             <p class="title" data-identifier="today-habit-name">{habit.name}</p>
             <p class="item" data-identifier="today-habit-sequence">Sequência atual:<span class="answer"> {habit.currentSequence}</span></p>
             <p class="item" data-identifier="today-habit-record">Seu recorde:<span class="answer"> {habit.highestSequence}</span></p>
-            <img data-identifier="today-habit-check-btn" src={checked} alt="" />
+            <img data-identifier="today-habit-check-btn" src={checked} alt="" color={habitDone} onClick={()=>markHabitDone(habitDone, setHabitDone)}/>
         </Habit>
     );
+}
+
+function markHabitDone(habitDone, setHabitDone){
+    if (habitDone){
+        setHabitDone(false);
+    } else {
+        setHabitDone(true);
+    }
 }
 
 const TodayStyle = styled.div`
@@ -120,7 +131,7 @@ color: #666666;
 }
 
 img{
-    background: #EBEBEB;
+background: ${props=>props.color === true ? '#8FC549' : '#EBEBEB'};
 border: 1px solid #E7E7E7;
 border-radius: 5px;
 width: 69px;
