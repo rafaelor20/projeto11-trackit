@@ -1,23 +1,24 @@
 import styled from "styled-components";
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import logo from "./assets/logo.png";
-import { loginPostUrl, loginPostSendObj, loginPostReceiveObj } from './apiUrls.js'
+import { loginPostUrl, loginPostSendObj } from './apiUrls.js'
+import { UserContext } from "../App";
 
 export default function RenderLogin() {
+    const [disableInput, setDisableInput] = useState(false);
     const navigate = useNavigate();
     const [login, setLogin] = useState(loginPostSendObj);
-    const [user, setUser] = useState(loginPostReceiveObj);
     const loginProps = { login: login, setLogin: setLogin };
-    const userProps = { user: user, setUser: setUser };
+    const userData = useContext(UserContext);
     return (
         <LoginDiv>
             <Logo src={logo} />
             <FontTitle>TrackIt</FontTitle>
-            <InputBox placeholder="email" onChange={e => updateEmail(e.target.value, loginProps)}></InputBox>
-            <InputBox placeholder="senha" onChange={e => updatePassword(e.target.value, loginProps)}></InputBox>
-            <LoginButton onClick={() => { Login(loginProps, userProps, navigate) }}>
+            <InputBox placeholder="email" onChange={e => updateEmail(e.target.value, loginProps)} disabled={disableInput}></InputBox>
+            <InputBox placeholder="senha" onChange={e => updatePassword(e.target.value, loginProps)} disabled={disableInput}></InputBox>
+            <LoginButton onClick={() => { Login(loginProps, userData, navigate, setDisableInput) }}>
                 <FontButton>
                     Entrar
                 </FontButton>
@@ -29,14 +30,15 @@ export default function RenderLogin() {
     );
 }
 
-function Login(loginProps, userProps, navigate) {
-    console.log(loginProps);
+function Login(loginProps, userData, navigate, setDisableInput) {
+    setDisableInput(true);
     const request = axios.post(loginPostUrl, loginProps.login);
-    const setUser = userProps.setUser;
-    //request.then(server => { 
-    //    setUser(server.data)});
+    const setUser = userData.setUser;
+    request.then(server => {setUser(server.data)});
     request.then(()=>{navigate('/habitos')});
     request.catch((error)=>error.response.data);
+    request.catch((error)=>{alert("Erro no login")});
+    setDisableInput(false)
 }
 
 function updateEmail(email, loginProps) {

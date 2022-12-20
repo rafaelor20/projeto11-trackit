@@ -14,12 +14,12 @@ export const loginPostSendObj = {
 };
 export const loginPostReceiveObj =
 {
-    "id": 0,
-    "name": "",
-    "image": "",
-    "email": "",
-    "password": "",
-    "token": ""
+    id: 0,
+    name: "",
+    image: "",
+    email: "",
+    password: "",
+    token: ""
 };
 
 

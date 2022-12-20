@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { registerPostUrl, registerPostObj } from "./apiUrls.js";
 import logo from "./assets/logo.png"
 
 export default function RenderRegister() {
+    const [disableInput, setDisableInput] = useState(false);
     const [user, setUser] = useState(registerPostObj);
     const userProps = {user: user, setUser: setUser}
     const navigate = useNavigate();
@@ -14,11 +15,11 @@ export default function RenderRegister() {
         <RegisterDiv>
             <Logo src={logo} />
             <FontTitle>TrackIt</FontTitle>
-            <InputBox placeholder="email" onChange={e => updateEmail(e.target.value, userProps)}></InputBox>
-            <InputBox placeholder="senha" onChange={e => updatePassword(e.target.value, userProps)}></InputBox>
-            <InputBox placeholder="nome" onChange={e => updateName(e.target.value, userProps)}></InputBox>
-            <InputBox placeholder="foto" onChange={e => updateImage(e.target.value, userProps)}></InputBox>
-            <LoginButton onClick={()=>Register(userProps, navigate)}>
+            <InputBox placeholder="email" onChange={e => updateEmail(e.target.value, userProps)} disabled={disableInput}></InputBox>
+            <InputBox placeholder="senha" onChange={e => updatePassword(e.target.value, userProps)} disabled={disableInput}></InputBox>
+            <InputBox placeholder="nome" onChange={e => updateName(e.target.value, userProps)} disabled={disableInput}></InputBox>
+            <InputBox placeholder="foto" onChange={e => updateImage(e.target.value, userProps)} disabled={disableInput}></InputBox>
+            <LoginButton onClick={()=>Register(userProps, navigate, setDisableInput)} disable={disableInput}>
                     <FontButton>
                         Cadastrar    
                     </FontButton>
@@ -30,11 +31,13 @@ export default function RenderRegister() {
     );
 }
 
-function Register(userProps, navigate){
-    console.log(userProps.user);
+function Register(userProps, navigate, setDisableInput){
+    setDisableInput(true);
     const request = axios.post(registerPostUrl, userProps.user);
     request.then(()=>{navigate('/')});
-    request.catch((error)=>error.response.data)
+    request.catch((error)=>error.response.data);
+    request.catch((error)=>{alert("Erro no cadastro")});
+    setDisableInput(false);
 }
 
 function updateEmail(email, userProps) {

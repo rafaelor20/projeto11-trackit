@@ -1,10 +1,19 @@
 import styled from "styled-components";
+import axios from "axios";
+import { useState, useContext } from "react";
+import { UserContext } from "../App";
 import TopBar from './topBar.js'
 import BottomBar from './bottomBar'
 import trash from './assets/trash.png'
+import { habitsListGetUrl, habitsListObj } from './apiUrls.js'
 
 
 export default function Habits() {
+    const userData = useContext(UserContext);
+    const [habitsLst, setHabitsLst] = useState(habitsListObj);
+    const request = axios.get(habitsListGetUrl, { headers: { Authorization: `Bearer ${userData.user.token}` } });
+    request.then((server)=>{setHabitsLst(server.data)});
+    request.catch((error)=>error.response.data);
     return (
         <HabitDiv>
             <TopBar />
@@ -51,40 +60,51 @@ export default function Habits() {
                     Você não tem nenhum hábito cadastrado ainda.
                     Adicione um hábito para começar a trackear!
                 </NoHabitWarning>
-                <Habit>
-                    <div class="box">
-                        <p>Ler 1 capítulo de livro</p>
-                        <img src={trash} alt="Apagar" />
-                    </div>
-                    <DaysBox>
-                        <DayBox>
-                            <p>D</p>
-                        </DayBox>
-                        <GreyDayBox>
-                            <p>S</p>
-                        </GreyDayBox>
-                        <DayBox>
-                            <p>T</p>
-                        </DayBox>
-                        <GreyDayBox>
-                            <p>Q</p>
-                        </GreyDayBox>
-                        <DayBox>
-                            <p>Q</p>
-                        </DayBox>
-                        <GreyDayBox>
-                            <p>S</p>
-                        </GreyDayBox>
-                        <DayBox>
-                            <p>S</p>
-                        </DayBox>
-                    </DaysBox>
-                </Habit>
+                <>{RenderHabits(habitsLst)}</>
             </Content>
-
             <BottomBar />
         </HabitDiv>
     );
+}
+
+function RenderHabits(habits){
+    return(
+        <>{habits.map(RenderHabit)}</>
+    )
+}
+
+function RenderHabit(habit) {
+    return (
+        <Habit>
+            <div class="box">
+                <p>{habit.name}</p>
+                <img src={trash} alt="Apagar" />
+            </div>
+            <DaysBox>
+                <DayBox>
+                    <p>D</p>
+                </DayBox>
+                <GreyDayBox>
+                    <p>S</p>
+                </GreyDayBox>
+                <DayBox>
+                    <p>T</p>
+                </DayBox>
+                <GreyDayBox>
+                    <p>Q</p>
+                </GreyDayBox>
+                <DayBox>
+                    <p>Q</p>
+                </DayBox>
+                <GreyDayBox>
+                    <p>S</p>
+                </GreyDayBox>
+                <DayBox>
+                    <p>S</p>
+                </DayBox>
+            </DaysBox>
+        </Habit>
+    )
 }
 
 const HabitDiv = styled.div`
@@ -189,7 +209,7 @@ color: #FFFFFF;
 const InputHabitName = styled.input`
 box-sizing: border-box;
 width: 303px;
-height: 45px;
+height: 50px;
 background: #FFFFFF;
 border: 2px solid #D5D5D5;
 border-radius: 5px;
@@ -198,7 +218,7 @@ padding: 0px 10px;
     font-family: 'Lexend Deca';
 font-style: normal;
 font-weight: 400;
-font-size: 20px;
+font-size: 18px;
 line-height: 25px;
 color: #DBDBDB;
 }
