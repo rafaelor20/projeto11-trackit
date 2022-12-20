@@ -10,8 +10,8 @@ import checked from './assets/checked.png'
 //domingo, 1/02
 //{semana[dia.getDay()]}, {DayJS().date()}/{DayJS().month()}
 export default function Today() {
-    let semana = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
-    let dia = new Date();
+    //let semana = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
+    //let dia = new Date();
     const userData = useContext(UserContext);
     const [habitsToday, setHabitsToday] = useState(habitsTodayReceive);
     const request = axios.get(habitsTodayUrl, { headers: { Authorization: `Bearer ${userData.user.token}` } });
