@@ -4,7 +4,7 @@ import { useState, useContext } from "react";
 import { UserContext } from "../App";
 import TopBar from './topBar.js'
 import BottomBar from './bottomBar'
-import {habitsTodayUrl, habitsTodayReceive} from './apiUrls.js'
+import { habitsTodayUrl, habitsTodayReceive } from './apiUrls.js'
 import checked from './assets/checked.png'
 
 
@@ -12,16 +12,17 @@ export default function Today() {
     const userData = useContext(UserContext);
     const [habitsToday, setHabitsToday] = useState(habitsTodayReceive);
     const request = axios.get(habitsTodayUrl, { headers: { Authorization: `Bearer ${userData.user.token}` } });
-    request.then((server)=>{setHabitsToday(server.data)});
-    request.catch((error)=>error.response.data);
+    request.then((server) => { setHabitsToday(server.data) });
+    request.catch((error) => error.response.data);
     return (
+
         <TodayStyle>
             <TopBar />
             <Content>
-                <TodayTitle>
+                <TodayTitle data-identifier="today">
                     Segunda, 17/05
                 </TodayTitle>
-                <HabitsDone>
+                <HabitsDone data-identifier="today-counter">
                     Nenhum hábito concluído ainda
                 </HabitsDone>
                 <>{Habits(habitsToday)}</>
@@ -32,20 +33,20 @@ export default function Today() {
     );
 }
 
-function Habits(lst){
-    return(
+function Habits(lst) {
+    return (
         <>{lst.map(RenderHabit)}</>
     )
 }
 
-function RenderHabit(habit){
-    return(
-        <Habit>
-        <p class="title">{habit.name}</p>
-        <p class="item">Sequência atual:<span class="answer"> {habit.currentSequence}</span></p>
-        <p class="item">Seu recorde:<span class="answer"> {habit.highestSequence}</span></p>
-        <img src={checked} alt="" />
-    </Habit>
+function RenderHabit(habit) {
+    return (
+        <Habit data-identifier="today-habit-container">
+            <p class="title" data-identifier="today-habit-name">{habit.name}</p>
+            <p class="item" data-identifier="today-habit-sequence">Sequência atual:<span class="answer"> {habit.currentSequence}</span></p>
+            <p class="item" data-identifier="today-habit-record">Seu recorde:<span class="answer"> {habit.highestSequence}</span></p>
+            <img data-identifier="today-habit-check-btn" src={checked} alt="" />
+        </Habit>
     );
 }
 

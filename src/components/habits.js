@@ -5,14 +5,16 @@ import { UserContext } from "../App";
 import TopBar from './topBar.js'
 import BottomBar from './bottomBar'
 import trash from './assets/trash.png'
-import { habitsListGetUrl, habitsListObj, deleteUrl } from './apiUrls.js'
+import { habitsListGetUrl, habitsListObj, deleteUrl, habitPostUrl, habitPostSendObj } from './apiUrls.js'
 
 
 export default function Habits() {
     const userData = useContext(UserContext);
     const [enableCreate, setEnableCreate] = useState('none');
+    const [createdHabit, setCreatedHabit] = useState(habitPostSendObj)
     const [habitsLst, setHabitsLst] = useState(habitsListObj);
     const [hasHabit, setHasHabit] = useState('none');
+    const [habitName, setHabitName] = useState('');
     useEffect(() => {
         const request = axios.get(habitsListGetUrl, { headers: { Authorization: `Bearer ${userData.user.token}` } });
         request.then((server) => { setHabitsLst(server.data) });
@@ -28,14 +30,14 @@ export default function Habits() {
             <Content>
                 <TopBarHabits>
                     <FontTopBarHabits>Meus hábitos</FontTopBarHabits>
-                    <CreateHabit onClick={() => { createHabit(enableCreate, setEnableCreate) }} >
+                    <CreateHabit onClick={() => { renderCreateHabit(enableCreate, setEnableCreate) }} data-identifier="habit-create-btn">
                         <PlusText>+</PlusText>
                     </CreateHabit>
                 </TopBarHabits>
-                <AddHabitDiv render={enableCreate}>
-                    <InputHabitName placeholder="nome do hábito" />
+                <AddHabitDiv render={enableCreate} data-identifier="habit-create-container">
+                    <InputHabitName data-identifier="habit-name-input" placeholder="nome do hábito" onChange={e => updateHabitName(e.target.value, setHabitName)} />
                     <DaysBox>
-                        <DayBox>
+                        <DayBox data-identifier="habit-day">
                             <p>D</p>
                         </DayBox>
                         <GreyDayBox>
@@ -58,8 +60,8 @@ export default function Habits() {
                         </DayBox>
                     </DaysBox>
                     <AddHabitButtons>
-                        <AddHabitCancel onClick={() => { createHabit(enableCreate, setEnableCreate) }}><p>Cancelar</p></AddHabitCancel>
-                        <AddHabitButton>
+                        <AddHabitCancel data-identifier="habit-create-cancel-btn" onClick={() => { renderCreateHabit(enableCreate, setEnableCreate) }}><p>Cancelar</p></AddHabitCancel>
+                        <AddHabitButton data-identifier="habit-create-save-btn" onClick={() => { createdHabitFunction(createdHabit, habitPostUrl, userData, habitsLst, setHabitsLst) }}>
                             <p>Salvar</p>
                         </AddHabitButton>
                     </AddHabitButtons>
@@ -82,14 +84,15 @@ function RenderHabits(habits) {
 }
 
 function RenderHabit(habit) {
+    const userData = useContext(UserContext);
     return (
-        <Habit>
+        <Habit data-identifier="habit-container">
             <div class="box">
-                <p>{habit.name}</p>
-                <img src={trash} alt="Apagar" />
+                <p data-identifier="habit-name">{habit.name}</p>
+                <img src={trash} alt="Apagar" onClick={() => deleteHabit(deleteUrl, habit, userData)} data-identifier="habit-delete-btn" />
             </div>
             <DaysBox>
-                <DayBox>
+                <DayBox data-identifier="habit-day">
                     <p>D</p>
                 </DayBox>
                 <GreyDayBox>
@@ -115,7 +118,7 @@ function RenderHabit(habit) {
     )
 }
 
-function createHabit(enableCreate, setEnableCreate) {
+function renderCreateHabit(enableCreate, setEnableCreate) {
     if (enableCreate === 'flex') {
         setEnableCreate('none');
     } else {
@@ -123,14 +126,14 @@ function createHabit(enableCreate, setEnableCreate) {
     };
 }
 
-function createdHabit(createdHabit, habitPostUrl, userData, habitsLst, setHabitsLst){
+function createdHabitFunction(createdHabit, habitPostUrl, userData, habitsLst, setHabitsLst) {
     const user = userData.user;
     const request = axios.post(habitPostUrl, { headers: { Authorization: `Bearer ${user.token}` } });
-    request.then((server)=>{setHabitsLst([...habitsLst, server.data])});
-    request.catch((error)=>error.response.data);
+    request.then((server) => { setHabitsLst([...habitsLst, server.data]) });
+    request.catch((error) => error.response.data);
 }
 
-function deleteHabit(deleteUrl, habit) {
+function deleteHabit(deleteUrl, habit, userData) {
     let text = "Voce deseja apagar este habito?\nClique em OK ou Cancel";
     // eslint-disable-next-line no-restricted-globals
     if (confirm(text) === true) {
@@ -139,6 +142,10 @@ function deleteHabit(deleteUrl, habit) {
         request.then(() => { alert("Hábito apagado com sucesso") });
         request.catch((error) => error.response);
     };
+}
+
+function updateHabitName(name, setHabitName) {
+    setHabitName(name);
 }
 
 const HabitDiv = styled.div`

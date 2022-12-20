@@ -16,15 +16,15 @@ export default function RenderLogin() {
         <LoginDiv>
             <Logo src={logo} />
             <FontTitle>TrackIt</FontTitle>
-            <InputBox placeholder="email" onChange={e => updateEmail(e.target.value, loginProps)} disabled={disableInput}></InputBox>
-            <InputBox placeholder="senha" onChange={e => updatePassword(e.target.value, loginProps)} disabled={disableInput}></InputBox>
-            <LoginButton onClick={() => { Login(loginProps, userData, navigate, setDisableInput) }} disabled={disableInput}>
+            <InputBox data-identifier="email-input" placeholder="email" onChange={e => updateEmail(e.target.value, loginProps)} disabled={disableInput}></InputBox>
+            <InputBox data-identifier="password-input" placeholder="senha" onChange={e => updatePassword(e.target.value, loginProps)} disabled={disableInput}></InputBox>
+            <LoginButton data-identifier="login-btn" onClick={() => { Login(loginProps, userData, navigate, setDisableInput) }} disabled={disableInput}>
                 <FontButton>
                     Entrar
                 </FontButton>
             </LoginButton>
             <Link to="/cadastro" style={{ textDecoration: 'none' }}>
-                <OtherPage>Não tem uma conta? Cadastre-se!</OtherPage>
+                <OtherPage data-identifier="signup-link">Não tem uma conta? Cadastre-se!</OtherPage>
             </Link>
         </LoginDiv>
     );
@@ -34,10 +34,10 @@ function Login(loginProps, userData, navigate, setDisableInput) {
     setDisableInput(true);
     const request = axios.post(loginPostUrl, loginProps.login);
     const setUser = userData.setUser;
-    request.then(server => {setUser(server.data)});
-    request.then(()=>{navigate('/hoje')});
-    request.catch((error)=>error.response.data);
-    request.catch((error)=>{alert("Erro no login")});
+    request.then(server => { setUser(server.data) });
+    request.then(() => { navigate('/hoje') });
+    request.catch((error) => error.response.data);
+    request.catch((error) => { alert("Erro no login") });
     setDisableInput(false)
 }
 

@@ -7,7 +7,7 @@ export default function TopBar() {
     const userData = useContext(UserContext);
     const user = userData.user;
     return (
-        <TopBarElem>
+        <TopBarElem data-identifier="header">
             <FontTopBar>TrackIt</FontTopBar>
             <ImgTopBar src={user.image} />
         </TopBarElem>

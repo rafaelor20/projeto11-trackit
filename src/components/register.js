@@ -8,35 +8,35 @@ import logo from "./assets/logo.png"
 export default function RenderRegister() {
     const [disableInput, setDisableInput] = useState(false);
     const [user, setUser] = useState(registerPostObj);
-    const userProps = {user: user, setUser: setUser}
+    const userProps = { user: user, setUser: setUser }
     const navigate = useNavigate();
 
     return (
         <RegisterDiv>
             <Logo src={logo} />
             <FontTitle>TrackIt</FontTitle>
-            <InputBox placeholder="email" onChange={e => updateEmail(e.target.value, userProps)} disabled={disableInput}></InputBox>
-            <InputBox placeholder="senha" onChange={e => updatePassword(e.target.value, userProps)} disabled={disableInput}></InputBox>
-            <InputBox placeholder="nome" onChange={e => updateName(e.target.value, userProps)} disabled={disableInput}></InputBox>
-            <InputBox placeholder="foto" onChange={e => updateImage(e.target.value, userProps)} disabled={disableInput}></InputBox>
-            <LoginButton onClick={()=>Register(userProps, navigate, setDisableInput)} disable={disableInput}>
-                    <FontButton>
-                        Cadastrar    
-                    </FontButton>
-                </LoginButton>
-            <Link to="/" style={{ textDecoration: 'none'}}>
-                <OtherPage>Já tem uma conta? Faça login!</OtherPage>
+            <InputBox data-identifier="email-input" placeholder="email" onChange={e => updateEmail(e.target.value, userProps)} disabled={disableInput}></InputBox>
+            <InputBox data-identifier="password-input" placeholder="senha" onChange={e => updatePassword(e.target.value, userProps)} disabled={disableInput}></InputBox>
+            <InputBox data-identifier="user-name-input" placeholder="nome" onChange={e => updateName(e.target.value, userProps)} disabled={disableInput}></InputBox>
+            <InputBox data-identifier="user-image-input" placeholder="foto" onChange={e => updateImage(e.target.value, userProps)} disabled={disableInput}></InputBox>
+            <LoginButton data-identifier="signup-btn" onClick={() => Register(userProps, navigate, setDisableInput)} disable={disableInput}>
+                <FontButton>
+                    Cadastrar
+                </FontButton>
+            </LoginButton>
+            <Link to="/" style={{ textDecoration: 'none' }}>
+                <OtherPage data-identifier="login-link">Já tem uma conta? Faça login!</OtherPage>
             </Link>
         </RegisterDiv>
     );
 }
 
-function Register(userProps, navigate, setDisableInput){
+function Register(userProps, navigate, setDisableInput) {
     setDisableInput(true);
     const request = axios.post(registerPostUrl, userProps.user);
-    request.then(()=>{navigate('/')});
-    request.catch((error)=>error.response.data);
-    request.catch((error)=>{alert("Erro no cadastro")});
+    request.then(() => { navigate('/') });
+    request.catch((error) => error.response.data);
+    request.catch((error) => { alert("Erro no cadastro") });
     setDisableInput(false);
 }
 

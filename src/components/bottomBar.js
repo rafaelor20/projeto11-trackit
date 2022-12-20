@@ -4,16 +4,16 @@ import today from './assets/today.png'
 
 export default function BottomBar() {
     return (
-        <BottomBarDiv>
-            <Link to='/habitos' style={{ textDecoration: 'none'}}>
-                <FontBottom>Hábitos</FontBottom>
+        <BottomBarDiv data-identifier="menu">
+            <Link data-identifier="habit-link" to='/habitos' style={{ textDecoration: 'none' }}>
+                <FontBottom >Hábitos</FontBottom>
             </Link>
-            <Link to='/hoje'>
+            <Link data-identifier="today-link" to='/hoje'>
                 <TodayDiv>
-                    <Today src={today} alt='hoje'/>
+                    <Today src={today} alt='hoje' />
                 </TodayDiv>
             </Link>
-            <Link to='/historico' style={{ textDecoration: 'none'}}>
+            <Link data-identifier="history-link" to='/historico' style={{ textDecoration: 'none' }}>
                 <FontBottom>Histórico</FontBottom>
             </Link>
         </BottomBarDiv>

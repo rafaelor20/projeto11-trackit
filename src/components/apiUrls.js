@@ -14,17 +14,17 @@ export const loginPostSendObj = {
 };
 export const loginPostReceiveObj =
 {
-    id: 0,
-    name: "",
-    image: "",
-    email: "",
-    password: "",
-    token: ""
+	id: 0,
+	name: "",
+	image: "",
+	email: "",
+	password: "",
+	token: ""
 };
 
 
 export const habitPostUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
-export const habitPostSendObj ={
+export const habitPostSendObj = {
 	name: "",
 	days: [] // segunda, quarta e sexta
 };
@@ -47,20 +47,20 @@ export const habitsListObj = [
 	}
 ];
 
-export const deleteUrl =  "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/";
+export const deleteUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/";//com id do habito concatenado no final
 // config = { headers: { Authorization: `Bearer ${token}` } };
 
 
 export const habitsTodayUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today";
 // config = { headers: { Authorization: `Bearer ${token}` } };
 export const habitsTodayReceive = [
-    {
-        "id": 0,
-        "name": "",
-        "done": false,
-        "currentSequence": 0,
-        "highestSequence": 0
-    }
+	{
+		"id": 0,
+		"name": "",
+		"done": false,
+		"currentSequence": 0,
+		"highestSequence": 0
+	}
 ];
 
 export const habitDonePostUrl = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/ID_DO_HABITO/check"
