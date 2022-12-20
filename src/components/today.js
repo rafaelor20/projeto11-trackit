@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import axios from "axios";
-import DayJS from 'react-dayjs';
+//import DayJS from 'react-dayjs';
 import { useState, useContext } from "react";
 import { UserContext } from "../App";
 import TopBar from './topBar.js'
@@ -22,7 +22,7 @@ export default function Today() {
             <TopBar />
             <Content>
                 <TodayTitle data-identifier="today">
-                    {semana[dia.getDay()]}, {DayJS().date()}/{DayJS().month()}
+                    domingo, 1/02
                 </TodayTitle>
                 <HabitsDone data-identifier="today-counter">
                     Nenhum hábito concluído ainda
@@ -48,13 +48,13 @@ function RenderHabit(habit) {
             <p class="title" data-identifier="today-habit-name">{habit.name}</p>
             <p class="item" data-identifier="today-habit-sequence">Sequência atual:<span class="answer"> {habit.currentSequence}</span></p>
             <p class="item" data-identifier="today-habit-record">Seu recorde:<span class="answer"> {habit.highestSequence}</span></p>
-            <img data-identifier="today-habit-check-btn" src={checked} alt="" bool={habitDone} onClick={()=>markHabitDone(habitDone, setHabitDone)}/>
+            <img data-identifier="today-habit-check-btn" src={checked} alt="" bool={habitDone} onClick={() => markHabitDone(habitDone, setHabitDone)} />
         </Habit>
     );
 }
 
-function markHabitDone(habitDone, setHabitDone){
-    if (habitDone){
+function markHabitDone(habitDone, setHabitDone) {
+    if (habitDone) {
         setHabitDone(false);
     } else {
         setHabitDone(true);
@@ -131,7 +131,7 @@ color: #666666;
 }
 
 img{
-background: ${(props)=>(props.bool) === true ? '#8FC549' : '#EBEBEB'};
+background: ${(props) => (props.bool) === true ? '#8FC549' : '#EBEBEB'};
 border: 1px solid #E7E7E7;
 border-radius: 5px;
 width: 69px;
