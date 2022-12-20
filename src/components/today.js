@@ -1,17 +1,17 @@
 import styled from "styled-components";
 import axios from "axios";
-//import DayJS from 'react-dayjs';
+import DayJS from 'react-dayjs';
 import { useState, useContext } from "react";
 import { UserContext } from "../App";
 import TopBar from './topBar.js'
 import BottomBar from './bottomBar'
 import { habitsTodayUrl, habitsTodayReceive } from './apiUrls.js'
 import checked from './assets/checked.png'
-
+//domingo, 1/02
 //{semana[dia.getDay()]}, {DayJS().date()}/{DayJS().month()}
 export default function Today() {
     let semana = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
-    //let dia = new Date();
+    let dia = new Date();
     const userData = useContext(UserContext);
     const [habitsToday, setHabitsToday] = useState(habitsTodayReceive);
     const request = axios.get(habitsTodayUrl, { headers: { Authorization: `Bearer ${userData.user.token}` } });
@@ -22,7 +22,7 @@ export default function Today() {
             <TopBar />
             <Content>
                 <TodayTitle data-identifier="today">
-                    domingo, 1/02
+                    {semana[dia.getDay()]}, {DayJS().date()}/{DayJS().month()}
                 </TodayTitle>
                 <HabitsDone data-identifier="today-counter">
                     Nenhum hábito concluído ainda
@@ -48,7 +48,7 @@ function RenderHabit(habit) {
             <p class="title" data-identifier="today-habit-name">{habit.name}</p>
             <p class="item" data-identifier="today-habit-sequence">Sequência atual:<span class="answer"> {habit.currentSequence}</span></p>
             <p class="item" data-identifier="today-habit-record">Seu recorde:<span class="answer"> {habit.highestSequence}</span></p>
-            <img data-identifier="today-habit-check-btn" src={checked} alt="" $isColor={habitDone} onClick={()=>markHabitDone(habitDone, setHabitDone)}/>
+            <img data-identifier="today-habit-check-btn" src={checked} alt="" bool={habitDone} onClick={()=>markHabitDone(habitDone, setHabitDone)}/>
         </Habit>
     );
 }
@@ -131,7 +131,7 @@ color: #666666;
 }
 
 img{
-background: ${props=>props.isColor === true ? '#8FC549' : '#EBEBEB'};
+background: ${(props)=>(props.bool) === true ? '#8FC549' : '#EBEBEB'};
 border: 1px solid #E7E7E7;
 border-radius: 5px;
 width: 69px;
