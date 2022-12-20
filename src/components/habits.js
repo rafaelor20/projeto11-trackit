@@ -10,6 +10,7 @@ import { habitsListGetUrl, habitsListObj } from './apiUrls.js'
 
 export default function Habits() {
     const userData = useContext(UserContext);
+    const [enableCreate, setEnableCreate] = useState(false);
     const [habitsLst, setHabitsLst] = useState(habitsListObj);
     const request = axios.get(habitsListGetUrl, { headers: { Authorization: `Bearer ${userData.user.token}` } });
     request.then((server)=>{setHabitsLst(server.data)});
@@ -20,7 +21,7 @@ export default function Habits() {
             <Content>
                 <TopBarHabits>
                     <FontTopBarHabits>Meus hábitos</FontTopBarHabits>
-                    <CreateHabit>
+                    <CreateHabit onClick={()=>{createHabit(enableCreate, setEnableCreate)}}>
                         <PlusText>+</PlusText>
                     </CreateHabit>
                 </TopBarHabits>
@@ -50,7 +51,7 @@ export default function Habits() {
                         </DayBox>
                     </DaysBox>
                     <AddHabitButtons>
-                        <AddHabitCancel><p>Cancelar</p></AddHabitCancel>
+                        <AddHabitCancel onClick={()=>{createHabit(enableCreate, setEnableCreate)}}><p>Cancelar</p></AddHabitCancel>
                         <AddHabitButton>
                             <p>Salvar</p>
                         </AddHabitButton>
@@ -65,6 +66,14 @@ export default function Habits() {
             <BottomBar />
         </HabitDiv>
     );
+}
+
+function createHabit(enableCreate ,setEnableCreate){
+    if(enableCreate){
+        setEnableCreate(false);
+    } else {
+        setEnableCreate(true);
+    };
 }
 
 function RenderHabits(habits){

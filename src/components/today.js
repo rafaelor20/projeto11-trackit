@@ -1,10 +1,19 @@
 import styled from "styled-components";
+import axios from "axios";
+import { useState, useContext } from "react";
+import { UserContext } from "../App";
 import TopBar from './topBar.js'
 import BottomBar from './bottomBar'
+import {habitsTodayUrl, habitsTodayReceive} from './apiUrls.js'
 import checked from './assets/checked.png'
 
 
 export default function Today() {
+    const userData = useContext(UserContext);
+    const [habitsToday, setHabitsToday] = useState(habitsTodayReceive);
+    const request = axios.get(habitsTodayUrl, { headers: { Authorization: `Bearer ${userData.user.token}` } });
+    request.then((server)=>{setHabitsToday(server.data)});
+    request.catch((error)=>error.response);
     return (
         <TodayStyle>
             <TopBar />
@@ -15,16 +24,28 @@ export default function Today() {
                 <HabitsDone>
                     Nenhum hábito concluído ainda
                 </HabitsDone>
-                <Habit>
-                    <p class="title">Ler 1 capítulo de livro</p>
-                    <p class="item">Sequência atual:<span class="answer"> 3 dias</span></p>
-                    <p class="item">Seu recorde:<span class="answer"> 5 dias</span></p>
-                    <img src={checked} alt="" />
-                </Habit>
+                <>{Habits(habitsToday)}</>
             </Content>
 
             <BottomBar />
         </TodayStyle>
+    );
+}
+
+function Habits(lst){
+    return(
+        <>{lst.map(RenderHabit)}</>
+    )
+}
+
+function RenderHabit(habit){
+    return(
+        <Habit>
+        <p class="title">{habit.name}</p>
+        <p class="item">Sequência atual:<span class="answer"> {habit.currentSequence}</span></p>
+        <p class="item">Seu recorde:<span class="answer"> {habit.highestSequence}</span></p>
+        <img src={checked} alt="" />
+    </Habit>
     );
 }
 

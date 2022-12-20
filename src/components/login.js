@@ -18,7 +18,7 @@ export default function RenderLogin() {
             <FontTitle>TrackIt</FontTitle>
             <InputBox placeholder="email" onChange={e => updateEmail(e.target.value, loginProps)} disabled={disableInput}></InputBox>
             <InputBox placeholder="senha" onChange={e => updatePassword(e.target.value, loginProps)} disabled={disableInput}></InputBox>
-            <LoginButton onClick={() => { Login(loginProps, userData, navigate, setDisableInput) }}>
+            <LoginButton onClick={() => { Login(loginProps, userData, navigate, setDisableInput) }} disabled={disableInput}>
                 <FontButton>
                     Entrar
                 </FontButton>
@@ -35,7 +35,7 @@ function Login(loginProps, userData, navigate, setDisableInput) {
     const request = axios.post(loginPostUrl, loginProps.login);
     const setUser = userData.setUser;
     request.then(server => {setUser(server.data)});
-    request.then(()=>{navigate('/habitos')});
+    request.then(()=>{navigate('/hoje')});
     request.catch((error)=>error.response.data);
     request.catch((error)=>{alert("Erro no login")});
     setDisableInput(false)
