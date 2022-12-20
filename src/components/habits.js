@@ -123,7 +123,14 @@ function createHabit(enableCreate, setEnableCreate) {
     };
 }
 
-function deleteHabit(userData, deleteUrl, habit) {
+function createdHabit(createdHabit, habitPostUrl, userData, habitsLst, setHabitsLst){
+    const user = userData.user;
+    const request = axios.post(habitPostUrl, { headers: { Authorization: `Bearer ${user.token}` } });
+    request.then((server)=>{setHabitsLst([...habitsLst, server.data])});
+    request.catch((error)=>error.response.data);
+}
+
+function deleteHabit(deleteUrl, habit) {
     let text = "Voce deseja apagar este habito?\nClique em OK ou Cancel";
     // eslint-disable-next-line no-restricted-globals
     if (confirm(text) === true) {
